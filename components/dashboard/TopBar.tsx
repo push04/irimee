@@ -65,7 +65,7 @@ function SessionPill({
   );
 }
 
-// ── Divider ──────�export function TopBar() {
+// ── Divider ──────�export function TopBar() {
   const {
     fieldData,
     fieldDataCompleteness,
@@ -138,7 +138,7 @@ function SessionPill({
       {/* ── Main tier: Application Header ──────────────────────────────── */}
       <header
         className="flex items-center justify-between px-4 shrink-0"
-        style={{ height: 64, background: '#003893' }}
+        style={{ height: 80, background: '#003893' }}
       >
         {/* ── Left: identity ───────────────────────────────────────────── */}
         <div className="flex items-center gap-4">
@@ -286,32 +286,5 @@ function SessionPill({
         </div>
       </header>
     </div>
-  );
-}    border border-white/30 text-white
-            hover:bg-white/10 active:bg-white/20
-            transition-colors duration-150
-          "
-          aria-label="Settings"
-        >
-          <Settings className="w-4 h-4" />
-        </button>
-
-        {/* Logout */}
-        <button
-          onClick={handleLogout}
-          title="Sign out"
-          className="
-            flex items-center justify-center w-8 h-8 rounded
-            border border-white/30 text-white/70
-            hover:bg-red-600/30 hover:text-white hover:border-red-400/40
-            active:bg-red-700/40
-            transition-colors duration-150
-          "
-          aria-label="Sign out"
-        >
-          <LogOut className="w-4 h-4" />
-        </button>
-      </div>
-    </header>
   );
 }
