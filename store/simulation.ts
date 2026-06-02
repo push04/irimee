@@ -189,7 +189,7 @@ export const useSimulationStore = create<SimulationStore>()(
           nose_length_m:  cfg.nose_length_m,
           motor_power_kw: cfg.motor_rated_power_kw,
           disc_type:      cfg.disc_type as SimulationParams['disc_type'],
-          n_cars:         cfg.formation_cars === 16 ? 16 : 8,
+          n_cars:         cfg.formation_cars,
           preset:         presetKey,
         },
       }));

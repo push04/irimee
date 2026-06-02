@@ -180,7 +180,7 @@ export interface SimulationParams {
   speed_kmh: number;
   motor_power_kw: number;
   disc_type: 'grey_cast_iron' | 'composite' | 'carbon_ceramic';
-  n_cars: 8 | 16;
+  n_cars: number;
   preset: string;
   mahsr_mode: boolean;
 }
