@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * TopBar.tsx — 48px top navigation bar for VBHSR-SIM.
@@ -7,16 +7,24 @@
  * Background: IR Blue (#003893). Primary action: saffron/orange.
  */
 
-import React, { useRef, useCallback } from 'react';
-import Image from 'next/image';
-import { Settings, FileUp, FileText, Play, Loader2, AlertTriangle, LogOut } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-import { useSimulationStore } from '@/store/simulation';
-import type { FieldDataRecord } from '@/lib/types';
+import React, { useRef, useCallback } from "react";
+import Image from "next/image";
+import {
+  Settings,
+  FileUp,
+  FileText,
+  Play,
+  Loader2,
+  AlertTriangle,
+  LogOut,
+} from "lucide-react";
+import { createClient } from "@supabase/supabase-js";
+import { useSimulationStore } from "@/store/simulation";
+import type { FieldDataRecord } from "@/lib/types";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
 // ── Small helper: completeness bar ────────────────────────────────────────────
@@ -24,9 +32,11 @@ const supabase = createClient(
 function CompletenessBar({ value }: { value: number }) {
   // Segment colour: red < 40, amber 40–70, green >= 70
   const colour =
-    value >= 70 ? 'bg-emerald-400' :
-    value >= 40 ? 'bg-amber-400'   :
-                  'bg-rose-400';
+    value >= 70
+      ? "bg-emerald-400"
+      : value >= 40
+        ? "bg-amber-400"
+        : "bg-rose-400";
 
   return (
     <div className="flex items-center gap-2">
@@ -57,15 +67,19 @@ function SessionPill({
 }) {
   return (
     <div className="flex flex-col items-center leading-none">
-      <span className="text-[9px] uppercase tracking-widest text-white/40 font-sans">{label}</span>
-      <span className={`text-[12px] font-mono font-medium mt-0.5 ${dim ? 'text-white/50' : 'text-white'}`}>
+      <span className="text-[9px] uppercase tracking-widest text-white/40 font-sans">
+        {label}
+      </span>
+      <span
+        className={`text-[12px] font-mono font-medium mt-0.5 ${dim ? "text-white/50" : "text-white"}`}
+      >
         {value}
       </span>
     </div>
   );
 }
 
-// ── Divider ──────�export function TopBar() {
+export function TopBar() {
   const {
     fieldData,
     fieldDataCompleteness,
@@ -92,33 +106,41 @@ function SessionPill({
         // Non-blocking — field data errors are surfaced in LeftPanel validation
       } finally {
         // Reset input so same file can be re-loaded
-        if (fileInputRef.current) fileInputRef.current.value = '';
+        if (fileInputRef.current) fileInputRef.current.value = "";
       }
     },
-    [setFieldData]
+    [setFieldData],
   );
 
   const handleLoadFieldData = () => fileInputRef.current?.click();
 
   const handleExportPDF = async () => {
-    window.open('/api/report/generate', '_blank');
+    window.open("/api/report/generate", "_blank");
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    window.location.href = '/login';
+    window.location.href = "/login";
   };
 
-  const isComputing = computeStatus === 'computing';
+  const isComputing = computeStatus === "computing";
 
   // Pull session context from loaded field data (or show placeholders)
   const meta = fieldData?.inspection_metadata;
-  const locationLabel = meta?.location === 'jheel' ? 'Jheel Siding' :
-                        meta?.location === 'rncc'  ? 'RNCC Patna'   : '—';
-  const coachLabel    = meta?.coach_number ?? '—';
-  const dateLabel     = meta?.date ?? '—';
-  const trainLabel    = meta?.train_type === 'vb_sleeper' ? 'VB Sleeper' :
-                        meta?.train_type === 'vb_chair'   ? 'VB Chair Car' : '—';
+  const locationLabel =
+    meta?.location === "jheel"
+      ? "Jheel Siding"
+      : meta?.location === "rncc"
+        ? "RNCC Patna"
+        : "—";
+  const coachLabel = meta?.coach_number ?? "—";
+  const dateLabel = meta?.date ?? "—";
+  const trainLabel =
+    meta?.train_type === "vb_sleeper"
+      ? "VB Sleeper"
+      : meta?.train_type === "vb_chair"
+        ? "VB Chair Car"
+        : "—";
 
   return (
     <div className="flex flex-col shrink-0">
@@ -129,16 +151,22 @@ function SessionPill({
           <span>Government of India — Ministry of Railways</span>
         </div>
         <div className="flex items-center gap-4">
-          <button className="hover:text-white transition-colors">Screen Reader</button>
-          <button className="hover:text-white transition-colors">Skip to Content</button>
-          <button className="hover:text-white transition-colors font-medium">हिन्दी</button>
+          <button className="hover:text-white transition-colors">
+            Screen Reader
+          </button>
+          <button className="hover:text-white transition-colors">
+            Skip to Content
+          </button>
+          <button className="hover:text-white transition-colors font-medium">
+            हिन्दी
+          </button>
         </div>
       </div>
 
       {/* ── Main tier: Application Header ──────────────────────────────── */}
       <header
         className="flex items-center justify-between px-4 shrink-0"
-        style={{ height: 80, background: '#003893' }}
+        style={{ height: 80, background: "#003893" }}
       >
         {/* ── Left: identity ───────────────────────────────────────────── */}
         <div className="flex items-center gap-4">
@@ -176,18 +204,21 @@ function SessionPill({
 
         {/* ── Centre: session context ──────────────────────────────────── */}
         <div className="flex items-center gap-4">
-          <SessionPill label="Location"  value={locationLabel} dim={!meta} />
+          <SessionPill label="Location" value={locationLabel} dim={!meta} />
           <VDivider />
-          <SessionPill label="Coach"     value={coachLabel}    dim={!meta} />
+          <SessionPill label="Coach" value={coachLabel} dim={!meta} />
           <VDivider />
-          <SessionPill label="Train"     value={trainLabel}    dim={!meta} />
+          <SessionPill label="Train" value={trainLabel} dim={!meta} />
           <VDivider />
-          <SessionPill label="Date"      value={dateLabel}     dim={!meta} />
+          <SessionPill label="Date" value={dateLabel} dim={!meta} />
           <VDivider />
           <CompletenessBar value={fieldDataCompleteness} />
 
           {computeError && (
-            <div className="flex items-center gap-1 text-amber-400" title={computeError}>
+            <div
+              className="flex items-center gap-1 text-amber-400"
+              title={computeError}
+            >
               <AlertTriangle className="w-4 h-4" />
               <span className="text-[11px] font-mono">Compute error</span>
             </div>
@@ -242,8 +273,8 @@ function SessionPill({
               disabled:opacity-60 disabled:cursor-not-allowed
             "
             style={{
-              background: isComputing ? '#D44F0C' : '#F26522',
-              boxShadow: isComputing ? 'none' : '0 0 0 1px #F26522',
+              background: isComputing ? "#D44F0C" : "#F26522",
+              boxShadow: isComputing ? "none" : "0 0 0 1px #F26522",
             }}
           >
             {isComputing ? (
@@ -251,7 +282,7 @@ function SessionPill({
             ) : (
               <Play className="w-3.5 h-3.5 fill-white" />
             )}
-            {isComputing ? 'Computing…' : 'Run Simulation'}
+            {isComputing ? "Computing…" : "Run Simulation"}
           </button>
 
           {/* Settings */}
