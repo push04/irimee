@@ -3,10 +3,10 @@
  * Bundles all domain modules into a single call for API routes.
  */
 
-export * from './aerodynamics';
+export { davisResistance, aerodynamicDrag, cdFromNoseLength, powerRequired, maximumSpeed as aeroMaxSpeed, tunnelPressureWave, resistanceCurve } from './aerodynamics';
 export * from './dynamics';
 export * from './braking';
-export * from './traction';
+export { baseSpeed, tractiveEffort, maximumSpeed as tractionMaxSpeed, powerBudget, tevDiagram } from './traction';
 
 import type { SimulationParams, PhysicsResults, TrainConfig } from '../types';
 import { VB_NOMINAL, MAHSR } from '../config';

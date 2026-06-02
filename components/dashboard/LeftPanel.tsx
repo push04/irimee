@@ -17,7 +17,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import { useSimulationStore, type SimTab } from '@/store/simulation';
+import { useSimulationStore, type SimTab, type SimulationStore } from '@/store/simulation';
 import type { FieldDataRecord } from '@/lib/types';
 
 // ── Navigation tab definitions ─────────────────────────────────────────────────
@@ -27,7 +27,7 @@ interface NavEntry {
   label:    string;
   sublabel: string;
   icon:     React.ElementType;
-  getStatus: (store: ReturnType<typeof useSimulationStore>) => 'ok' | 'warn' | 'err' | 'pending' | 'idle';
+  getStatus: (store: SimulationStore) => 'ok' | 'warn' | 'err' | 'pending' | 'idle';
 }
 
 const NAV_ENTRIES: NavEntry[] = [
