@@ -65,15 +65,7 @@ function SessionPill({
   );
 }
 
-// ── Divider ────────────────────────────────────────────────────────────────────
-
-function VDivider() {
-  return <div className="h-6 w-px bg-white/20 mx-1" />;
-}
-
-// ── TopBar ─────────────────────────────────────────────────────────────────────
-
-export function TopBar() {
+// ── Divider ──────�export function TopBar() {
   const {
     fieldData,
     fieldDataCompleteness,
@@ -129,127 +121,173 @@ export function TopBar() {
                         meta?.train_type === 'vb_chair'   ? 'VB Chair Car' : '—';
 
   return (
-    <header
-      className="flex items-center justify-between px-4 shrink-0"
-      style={{ height: 48, background: '#003893' }}
-    >
-      {/* ── Left: identity ───────────────────────────────────────────── */}
-      <div className="flex items-center gap-3">
-        {/* IR logo */}
-        <div className="relative w-8 h-8 shrink-0">
-          <Image
-            src="/ir-logo.png"
-            alt="Indian Railways"
-            fill
-            className="object-contain rounded-full"
-            priority
-          />
+    <div className="flex flex-col shrink-0">
+      {/* ── Top tier: Govt of India Strip ──────────────────────────────── */}
+      <div className="h-7 bg-[#232323] flex items-center justify-between px-4 text-[10px] font-sans text-white/70 border-b border-black/50">
+        <div className="flex items-center gap-2">
+          {/* Emblem placeholder / text */}
+          <span>Government of India — Ministry of Railways</span>
         </div>
-
-        <VDivider />
-
-        <div className="flex flex-col leading-none">
-          <span className="font-serif text-[11px] text-white/80 tracking-wide uppercase">
-            Indian Railways
-          </span>
-          <span className="font-mono text-[13px] font-semibold text-white tracking-widest">
-            VBHSR-SIM
-          </span>
+        <div className="flex items-center gap-4">
+          <button className="hover:text-white transition-colors">Screen Reader</button>
+          <button className="hover:text-white transition-colors">Skip to Content</button>
+          <button className="hover:text-white transition-colors font-medium">हिन्दी</button>
         </div>
-
-        <VDivider />
-
-        <span className="text-[10px] font-sans text-white/40 tracking-wider uppercase">
-          MAHSR Multi-Physics Platform
-        </span>
       </div>
 
-      {/* ── Centre: session context ──────────────────────────────────── */}
-      <div className="flex items-center gap-4">
-        <SessionPill label="Location"  value={locationLabel} dim={!meta} />
-        <VDivider />
-        <SessionPill label="Coach"     value={coachLabel}    dim={!meta} />
-        <VDivider />
-        <SessionPill label="Train"     value={trainLabel}    dim={!meta} />
-        <VDivider />
-        <SessionPill label="Date"      value={dateLabel}     dim={!meta} />
-        <VDivider />
-        <CompletenessBar value={fieldDataCompleteness} />
-
-        {computeError && (
-          <div className="flex items-center gap-1 text-amber-400" title={computeError}>
-            <AlertTriangle className="w-3.5 h-3.5" />
-            <span className="text-[11px] font-mono">Compute error</span>
+      {/* ── Main tier: Application Header ──────────────────────────────── */}
+      <header
+        className="flex items-center justify-between px-4 shrink-0"
+        style={{ height: 64, background: '#003893' }}
+      >
+        {/* ── Left: identity ───────────────────────────────────────────── */}
+        <div className="flex items-center gap-4">
+          {/* IR logo */}
+          <div className="relative w-10 h-10 shrink-0">
+            <Image
+              src="/ir-logo.png"
+              alt="Indian Railways"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
-        )}
-      </div>
 
-      {/* ── Right: actions ───────────────────────────────────────────── */}
-      <div className="flex items-center gap-2">
-        {/* Load Field Data */}
-        <button
-          onClick={handleLoadFieldData}
-          className="
-            flex items-center gap-1.5 px-3 py-1.5 rounded
-            border border-white/30 text-white text-[12px] font-sans
-            hover:bg-white/10 active:bg-white/20
-            transition-colors duration-150
-          "
-        >
-          <FileUp className="w-3.5 h-3.5" />
-          Load Field Data
-        </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          onChange={handleFileChange}
-          className="hidden"
-        />
+          <div className="flex flex-col leading-none">
+            <span className="font-bold text-[16px] text-white tracking-wide">
+              INDIAN RAILWAYS
+            </span>
+            <span className="font-sans text-[11px] text-white/80 mt-1">
+              भारतीय रेल · Ministry of Railways, Government of India
+            </span>
+          </div>
 
-        {/* Export PDF */}
-        <button
-          onClick={handleExportPDF}
-          className="
-            flex items-center gap-1.5 px-3 py-1.5 rounded
-            border border-white/30 text-white text-[12px] font-sans
-            hover:bg-white/10 active:bg-white/20
-            transition-colors duration-150
-          "
-        >
-          <FileText className="w-3.5 h-3.5" />
-          Export PDF
-        </button>
+          <div className="h-10 w-px bg-white/20 mx-2" />
 
-        {/* Run Simulation — primary action */}
-        <button
-          onClick={runCompute}
-          disabled={isComputing}
-          className="
-            flex items-center gap-1.5 px-4 py-1.5 rounded
-            text-white text-[12px] font-sans font-medium
-            transition-all duration-150
-            disabled:opacity-60 disabled:cursor-not-allowed
-          "
-          style={{
-            background: isComputing ? '#D44F0C' : '#F26522',
-            boxShadow: isComputing ? 'none' : '0 0 0 1px #F26522',
-          }}
-        >
-          {isComputing ? (
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-          ) : (
-            <Play className="w-3.5 h-3.5 fill-white" />
+          <div className="flex flex-col leading-none">
+            <span className="font-bold text-[15px] text-[#FFD200] tracking-wide">
+              VBHSR-SIM
+            </span>
+            <span className="font-sans text-[10px] text-white/80 uppercase tracking-wider mt-1">
+              MAHSR Multi-Physics Platform · IRIMEE Jamalpur
+            </span>
+          </div>
+        </div>
+
+        {/* ── Centre: session context ──────────────────────────────────── */}
+        <div className="flex items-center gap-4">
+          <SessionPill label="Location"  value={locationLabel} dim={!meta} />
+          <VDivider />
+          <SessionPill label="Coach"     value={coachLabel}    dim={!meta} />
+          <VDivider />
+          <SessionPill label="Train"     value={trainLabel}    dim={!meta} />
+          <VDivider />
+          <SessionPill label="Date"      value={dateLabel}     dim={!meta} />
+          <VDivider />
+          <CompletenessBar value={fieldDataCompleteness} />
+
+          {computeError && (
+            <div className="flex items-center gap-1 text-amber-400" title={computeError}>
+              <AlertTriangle className="w-4 h-4" />
+              <span className="text-[11px] font-mono">Compute error</span>
+            </div>
           )}
-          {isComputing ? 'Computing…' : 'Run Simulation'}
-        </button>
+        </div>
 
-        {/* Settings */}
-        <button
-          onClick={() => setSettingsOpen(true)}
-          className="
-            flex items-center justify-center w-8 h-8 rounded
-            border border-white/30 text-white
+        {/* ── Right: actions ───────────────────────────────────────────── */}
+        <div className="flex items-center gap-2">
+          {/* Load Field Data */}
+          <button
+            onClick={handleLoadFieldData}
+            className="
+              flex items-center gap-1.5 px-3 py-1.5 rounded
+              border border-white/30 text-white text-[12px] font-sans
+              hover:bg-white/10 active:bg-white/20
+              transition-colors duration-150
+            "
+          >
+            <FileUp className="w-3.5 h-3.5" />
+            Load Field Data
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+
+          {/* Export PDF */}
+          <button
+            onClick={handleExportPDF}
+            className="
+              flex items-center gap-1.5 px-3 py-1.5 rounded
+              border border-white/30 text-white text-[12px] font-sans
+              hover:bg-white/10 active:bg-white/20
+              transition-colors duration-150
+            "
+          >
+            <FileText className="w-3.5 h-3.5" />
+            Export PDF
+          </button>
+
+          {/* Run Simulation — primary action */}
+          <button
+            onClick={runCompute}
+            disabled={isComputing}
+            className="
+              flex items-center gap-1.5 px-4 py-1.5 rounded
+              text-white text-[12px] font-sans font-medium
+              transition-all duration-150
+              disabled:opacity-60 disabled:cursor-not-allowed
+            "
+            style={{
+              background: isComputing ? '#D44F0C' : '#F26522',
+              boxShadow: isComputing ? 'none' : '0 0 0 1px #F26522',
+            }}
+          >
+            {isComputing ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            ) : (
+              <Play className="w-3.5 h-3.5 fill-white" />
+            )}
+            {isComputing ? 'Computing…' : 'Run Simulation'}
+          </button>
+
+          {/* Settings */}
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="
+              flex items-center justify-center w-8 h-8 rounded
+              border border-white/30 text-white
+              hover:bg-white/10 active:bg-white/20
+              transition-colors duration-150
+            "
+            aria-label="Settings"
+          >
+            <Settings className="w-4 h-4" />
+          </button>
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            title="Sign out"
+            className="
+              flex items-center justify-center w-8 h-8 rounded
+              border border-white/30 text-white/70
+              hover:bg-red-600/30 hover:text-white hover:border-red-400/40
+              active:bg-red-700/40
+              transition-colors duration-150
+            "
+            aria-label="Sign out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+    </div>
+  );
+}    border border-white/30 text-white
             hover:bg-white/10 active:bg-white/20
             transition-colors duration-150
           "
