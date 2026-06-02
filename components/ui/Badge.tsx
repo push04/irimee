@@ -63,7 +63,7 @@ const variantStyles: Record<BadgeVariant, { pill: string; iconColor: string }> =
   },
 };
 
-const defaultIcons: Record<BadgeVariant, React.ComponentType<{ size?: number; className?: string }>> = {
+const defaultIcons: Record<BadgeVariant, React.ElementType> = {
   ok:   CheckCircle2,
   warn: AlertTriangle,
   err:  XCircle,
