@@ -18,11 +18,11 @@ import {
   AlertTriangle,
   LogOut,
 } from "lucide-react";
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 import { useSimulationStore } from "@/store/simulation";
 import type { FieldDataRecord } from "@/lib/types";
 
-const supabase = createClient(
+const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
@@ -77,6 +77,12 @@ function SessionPill({
       </span>
     </div>
   );
+}
+
+// ── Divider ────────────────────────────────────────────────────────────────────
+
+function VDivider() {
+  return <div className="h-6 w-px bg-white/20 mx-1" />;
 }
 
 export function TopBar() {
@@ -147,7 +153,8 @@ export function TopBar() {
       {/* ── Top tier: Govt of India Strip ──────────────────────────────── */}
       <div className="h-7 bg-[#232323] flex items-center justify-between px-4 text-[10px] font-sans text-white/70 border-b border-black/50">
         <div className="flex items-center gap-2">
-          {/* Emblem placeholder / text */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/emblem-india.svg" alt="Emblem of India" className="h-4 w-4 invert opacity-60" />
           <span>Government of India — Ministry of Railways</span>
         </div>
         <div className="flex items-center gap-4">

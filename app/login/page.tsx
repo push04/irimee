@@ -9,10 +9,12 @@
  */
 
 import { useState, useRef } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 import { Loader2, Lock, Mail, AlertTriangle } from 'lucide-react';
 
-const supabase = createClient(
+// createBrowserClient stores the session in cookies (not localStorage),
+// so the server-side middleware can read it after the page redirect.
+const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
