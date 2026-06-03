@@ -67,45 +67,48 @@ export async function POST(req: NextRequest) {
 
     const params: SimulationParams = body;
 
-    // ── 2. Check cache — avoid re-running identical param sets ───────────────
-    const supabase = createServerClient();
+    // ── 2. Check cache (Supabase failure must never block physics) ────────────
+    try {
+      const supabase = createServerClient();
+      const { data: cached } = await supabase
+        .from('physics_results')
+        .select('results, computed_at')
+        .eq('params', params as never)   // pass object; PostgREST casts to JSONB
+        .order('computed_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();                  // returns null (not error) when no rows
 
-    const { data: cached } = await supabase
-      .from('physics_results')
-      .select('results, computed_at')
-      .eq('params', JSON.stringify(params))   // JSONB equality
-      .order('computed_at', { ascending: false })
-      .limit(1)
-      .single();
-
-    if (cached?.results) {
-      return NextResponse.json(
-        { ...cached.results, _cached: true, computed_at: cached.computed_at },
-        { status: 200 }
-      );
+      if (cached?.results) {
+        return NextResponse.json(
+          { ...cached.results, _cached: true, computed_at: cached.computed_at },
+          { status: 200 }
+        );
+      }
+    } catch (cacheErr) {
+      // Cache unavailable — proceed to fresh computation
+      console.warn('[physics/compute] Cache check failed, computing fresh:', String(cacheErr));
     }
 
     // ── 3. Run full physics computation ──────────────────────────────────────
     const results = await computeAllPhysics(params);
 
-    // ── 4. Persist to cache (non-blocking — don't let a DB write fail the response) ─
-    supabase
-      .from('physics_results')
-      .insert({
-        // inspection_id intentionally null — this is a pure param-driven compute,
-        // not tied to a specific inspection. The field-data routes link results
-        // to inspections explicitly.
-        inspection_id: null,
-        params:        params,
-        results:       results,
-        computed_at:   results.computed_at,
-      })
-      .then(({ error }) => {
-        if (error) {
-          // Log only — cache write failure must not affect the HTTP response.
-          console.error('[physics/compute] Cache write failed:', error.message);
-        }
-      });
+    // ── 4. Persist to cache (fire-and-forget, isolated try-catch) ────────────
+    try {
+      const supabase = createServerClient();
+      supabase
+        .from('physics_results')
+        .insert({
+          inspection_id: null,   // param-driven compute, not tied to an inspection
+          params:        params,
+          results:       results,
+          computed_at:   results.computed_at,
+        })
+        .then(({ error }) => {
+          if (error) console.error('[physics/compute] Cache write failed:', error.message);
+        });
+    } catch {
+      // Ignore — cache write failure must never affect the response
+    }
 
     // ── 5. Return computed results ────────────────────────────────────────────
     return NextResponse.json(results, { status: 200 });

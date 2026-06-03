@@ -87,8 +87,9 @@ export function maximumSpeed(params: {
     return TE - R - P_aux_W / v;
   };
 
-  if (residual(0.1) < 0) return 0;
-  let lo = 0.1, hi = 200;
+  // Check at 5 m/s (18 km/h) — avoids P_aux/v blowing up near zero
+  if (residual(5) < 0) return 0;
+  let lo = 5, hi = 200;
   if (residual(hi) > 0) return hi * 3.6;
 
   for (let i = 0; i < 80; i++) {

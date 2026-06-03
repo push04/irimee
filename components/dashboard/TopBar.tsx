@@ -151,22 +151,16 @@ export function TopBar() {
   return (
     <div className="flex flex-col shrink-0">
       {/* ── Top tier: Govt of India Strip ──────────────────────────────── */}
-      <div className="h-7 bg-[#232323] flex items-center justify-between px-4 text-[10px] font-sans text-white/70 border-b border-black/50">
+      <div className="h-7 bg-white flex items-center justify-between px-4 text-[10px] font-sans text-[#333] border-b border-[#D8DFEE]">
         <div className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/emblem-india.svg" alt="Emblem of India" className="h-4 w-4 invert opacity-60" />
-          <span>Government of India — Ministry of Railways</span>
+          <img src="/emblem-india.svg" alt="Emblem of India" className="h-4 w-4 opacity-70" />
+          <span className="font-medium">Government of India — Ministry of Railways</span>
         </div>
-        <div className="flex items-center gap-4">
-          <button className="hover:text-white transition-colors">
-            Screen Reader
-          </button>
-          <button className="hover:text-white transition-colors">
-            Skip to Content
-          </button>
-          <button className="hover:text-white transition-colors font-medium">
-            हिन्दी
-          </button>
+        <div className="flex items-center gap-4 text-[#666]">
+          <button className="hover:text-[#003893] transition-colors">Screen Reader</button>
+          <button className="hover:text-[#003893] transition-colors">Skip to Content</button>
+          <button className="hover:text-[#003893] transition-colors font-medium">हिन्दी</button>
         </div>
       </div>
 
@@ -222,12 +216,13 @@ export function TopBar() {
           <CompletenessBar value={fieldDataCompleteness} />
 
           {computeError && (
-            <div
-              className="flex items-center gap-1 text-amber-400"
-              title={computeError}
-            >
-              <AlertTriangle className="w-4 h-4" />
-              <span className="text-[11px] font-mono">Compute error</span>
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-red-900/30 border border-red-500/30">
+              <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+              <span className="text-[10px] font-mono text-red-300 max-w-[200px] truncate" title={computeError}>
+                {computeError.length > 60
+                  ? computeError.slice(0, 57) + '…'
+                  : computeError}
+              </span>
             </div>
           )}
         </div>

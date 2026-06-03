@@ -119,7 +119,7 @@ function TabContent() {
   })();
 
   return (
-    <div className="flex-1 overflow-auto bg-surface" style={{ height: 300 }}>
+    <div className="flex-1 overflow-auto bg-surface" style={{ height: 440 }}>
       {content}
     </div>
   );
@@ -254,7 +254,7 @@ export function Dashboard() {
       <TabRow />
 
       {/* ── Tab content ───────────────────────────────────────────────── */}
-      <div className="shrink-0 border-t border-surface-border" style={{ height: 300 }}>
+      <div className="shrink-0 border-t border-surface-border" style={{ height: 440 }}>
         <TabContent />
       </div>
     </div>

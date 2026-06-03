@@ -57,22 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-dvh bg-surface font-sans antialiased" suppressHydrationWarning>
 
-        {/* Gov.in accessibility strip */}
-        <div className="bg-[#1A1A1A] py-1 px-4 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/emblem-india.svg" alt="Emblem of India" className="h-4 w-4 opacity-60 invert" />
-            <span className="text-white/50 text-[10px] font-sans tracking-wide">
-              Government of India — Ministry of Railways
-            </span>
-          </div>
-          <div className="flex gap-4 text-[10px] text-white/40 font-sans">
-            <span>Screen Reader</span>
-            <span>Skip to Content</span>
-            <span>हिन्दी</span>
-          </div>
-        </div>
-
         {children}
 
         <Toaster
